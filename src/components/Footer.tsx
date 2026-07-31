@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { BUSINESS } from '../lib/constants'
+import LogoMark from './Logo'
 import { Phone, Mail } from './Icons'
 
 const quickLinks = [
@@ -34,11 +35,7 @@ export default function Footer() {
         {/* Brand + contact */}
         <div>
           <div className="flex items-center gap-3">
-            <span className="grid h-11 w-11 place-items-center rounded-2xl bg-teal-gradient">
-              <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="#c9a24b" strokeWidth="1.8">
-                <path d="M12 20c-5-3.2-8-6.5-8-10a4 4 0 0 1 8-1 4 4 0 0 1 8 1c0 3.5-3 6.8-8 10Z" />
-              </svg>
-            </span>
+            <LogoMark className="h-11 w-11" />
             <span className="font-serif text-xl font-semibold text-white">Lean On Me</span>
           </div>
           <p className="mt-4 max-w-xs text-sm leading-relaxed text-cream/60">

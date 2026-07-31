@@ -2,9 +2,18 @@
 
 Place polished, licensed caregiving imagery here.
 
-| File in this folder     | Used by                                         |
-| ----------------------- | ----------------------------------------------- |
-| `lean-on-me-hero.jpg`   | Hero poster / fallback + Open Graph share image |
+| File in this folder      | Used by                                         |
+| ------------------------ | ----------------------------------------------- |
+| `lean-on-me-hero.jpg`    | Hero poster / fallback + Open Graph share image |
+| `lean-on-me-logo.png`    | Header + footer logo (optional — see below)     |
+
+## Logo (`lean-on-me-logo.png`)
+Drop your exact logo artwork here as `lean-on-me-logo.png` (a transparent-
+background PNG works best; a square/roughly-square crop of the heart mark looks
+best in the header). The site uses it automatically in the navigation bar and
+footer. Until it's present, a built-in scalable SVG recreation of the heart mark
+is shown, so the brand always looks intentional. Recommended: 256×256+, < ~80 KB.
+
 
 ## Requirements
 - **`lean-on-me-hero.jpg`** — a high-resolution, warm, dignified caregiving

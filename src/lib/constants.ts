@@ -20,14 +20,16 @@ export const MISSION_STATEMENT =
 export const HERO_VIDEO_STATEMENT =
   'At Lean On Me Caregiving, we give you the services you need.'
 
-export type NavItem = { label: string; to: string }
+// `short` is used in the compact desktop nav bar; `label` is the full name used
+// in the mobile drawer and elsewhere.
+export type NavItem = { label: string; short?: string; to: string }
 
 export const NAV_ITEMS: NavItem[] = [
   { label: 'Home', to: '/' },
   { label: 'About Us', to: '/about' },
   { label: 'Services', to: '/services' },
-  { label: 'Medicaid Assistance', to: '/medicaid-assistance' },
-  { label: 'Veteran & Elderly Housing', to: '/veteran-elderly-housing' },
+  { label: 'Medicaid Assistance', short: 'Medicaid', to: '/medicaid-assistance' },
+  { label: 'Veteran & Elderly Housing', short: 'Housing', to: '/veteran-elderly-housing' },
   { label: 'FAQ', to: '/faq' },
   { label: 'Sign Up', to: '/sign-up' },
   { label: 'Contact', to: '/contact' },

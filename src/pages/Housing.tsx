@@ -1,8 +1,8 @@
-import { Link } from 'react-router-dom'
 import Seo from '../components/Seo'
 import PageHero from '../components/PageHero'
 import Reveal from '../components/Reveal'
 import CtaBand from '../components/CtaBand'
+import HousingInterestForm from '../components/HousingInterestForm'
 import { Home as HomeIcon, Medal, Check, Shield } from '../components/Icons'
 
 const FEATURES = [
@@ -24,12 +24,12 @@ export default function Housing() {
         title="Comfortable, supportive housing for those who need limited daily assistance"
         subtitle="Lean On Me provides housing options for veterans and elderly individuals who may not require full nursing-home care but benefit from a safe, supportive, and comfortable environment."
       >
-        <Link to="/sign-up" className="btn-primary">
+        <a href="#interest-list" className="btn-primary">
           Ask About Housing
-        </Link>
-        <Link to="/sign-up" className="btn-outline">
+        </a>
+        <a href="#interest-list" className="btn-outline">
           Join the Housing Interest List
-        </Link>
+        </a>
       </PageHero>
 
       <section className="section bg-cream">
@@ -70,12 +70,12 @@ export default function Housing() {
                 )}
               </ul>
               <div className="mt-8 flex flex-wrap gap-3">
-                <Link to="/sign-up" className="btn-primary">
+                <a href="#interest-list" className="btn-primary">
                   Ask About Housing
-                </Link>
-                <Link to="/sign-up" className="btn-outline">
+                </a>
+                <a href="#interest-list" className="btn-outline">
                   Join the Housing Interest List
-                </Link>
+                </a>
               </div>
             </div>
           </Reveal>
@@ -94,6 +94,23 @@ export default function Housing() {
               </p>
             </div>
           </Reveal>
+        </div>
+      </section>
+
+      {/* ============ Join the Housing Interest List ============ */}
+      <section id="interest-list" className="section scroll-mt-24 bg-white">
+        <div className="container-lux max-w-3xl">
+          <div className="mx-auto mb-10 max-w-2xl text-center">
+            <p className="eyebrow">Housing Interest List</p>
+            <h2 className="mt-3 font-serif text-4xl font-semibold text-navy">
+              Add your name to our housing interest list
+            </h2>
+            <p className="mt-4 text-navy/60">
+              Share a few details and our team will follow up with current information. Joining the
+              list does not guarantee availability, acceptance, or placement.
+            </p>
+          </div>
+          <HousingInterestForm />
         </div>
       </section>
 

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link, NavLink, useLocation } from 'react-router-dom'
 import { BUSINESS, NAV_ITEMS } from '../lib/constants'
+import LogoMark from './Logo'
 import { Phone, Menu, Close, Lock } from './Icons'
 
 export default function Navbar() {
@@ -27,14 +28,10 @@ export default function Navbar() {
             : 'bg-transparent'
         }`}
       >
-        <nav className="container-lux flex items-center justify-between gap-4 py-3">
+        <nav className="container-lux flex flex-nowrap items-center justify-between gap-4 py-3">
           {/* Brand */}
-          <Link to="/" className="group flex items-center gap-3" aria-label="Lean On Me home">
-            <span className="grid h-11 w-11 place-items-center rounded-2xl bg-teal-gradient text-white shadow-soft">
-              <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="#c9a24b" strokeWidth="1.8">
-                <path d="M12 20c-5-3.2-8-6.5-8-10a4 4 0 0 1 8-1 4 4 0 0 1 8 1c0 3.5-3 6.8-8 10Z" />
-              </svg>
-            </span>
+          <Link to="/" className="group flex shrink-0 items-center gap-3" aria-label="Lean On Me home">
+            <LogoMark className="h-12 w-12" />
             <span className="leading-tight">
               <span className={`block font-serif text-lg font-semibold ${scrolled ? 'text-navy' : 'text-white'}`}>
                 Lean On Me
@@ -46,46 +43,57 @@ export default function Navbar() {
           </Link>
 
           {/* Desktop nav */}
-          <ul className="hidden items-center gap-1 xl:flex">
+          <ul className="hidden items-center gap-0.5 xl:flex">
             {NAV_ITEMS.map((item) => (
               <li key={item.to}>
                 <NavLink
                   to={item.to}
                   className={({ isActive }) =>
-                    `rounded-full px-3 py-2 text-sm font-medium transition-colors ${
-                      scrolled ? 'text-navy/80 hover:text-teal' : 'text-cream/90 hover:text-white'
-                    } ${isActive ? (scrolled ? '!text-teal' : '!text-white') : ''}`
+                    `whitespace-nowrap rounded-full px-2.5 py-2 text-[13px] font-medium tracking-tight transition-colors ${
+                      isActive
+                        ? scrolled
+                          ? 'bg-teal/10 text-teal'
+                          : 'bg-white/15 text-white'
+                        : scrolled
+                          ? 'text-navy/75 hover:bg-navy/5 hover:text-teal'
+                          : 'text-cream/90 hover:bg-white/10 hover:text-white'
+                    }`
                   }
                 >
-                  {item.label}
+                  {item.short ?? item.label}
                 </NavLink>
               </li>
             ))}
-            <li>
-              <NavLink
-                to="/admin"
-                className={`flex items-center gap-1 rounded-full px-3 py-2 text-sm font-medium transition-colors ${
-                  scrolled ? 'text-navy/60 hover:text-teal' : 'text-cream/80 hover:text-white'
-                }`}
-              >
-                <Lock className="h-4 w-4" /> Admin
-              </NavLink>
-            </li>
           </ul>
 
           {/* Desktop CTAs */}
-          <div className="hidden items-center gap-3 lg:flex">
-            <a href={BUSINESS.phoneHref} className={`flex items-center gap-2 text-sm font-semibold ${scrolled ? 'text-teal' : 'text-white'}`}>
+          <div className="hidden shrink-0 items-center gap-2.5 xl:flex">
+            <NavLink
+              to="/admin"
+              className={`flex items-center gap-1.5 whitespace-nowrap rounded-full px-3 py-2 text-[13px] font-medium transition-colors ${
+                scrolled ? 'text-navy/55 hover:text-teal' : 'text-cream/75 hover:text-white'
+              }`}
+            >
+              <Lock className="h-3.5 w-3.5" /> Admin
+            </NavLink>
+            <a
+              href={BUSINESS.phoneHref}
+              className={`flex items-center gap-2 whitespace-nowrap rounded-full border px-3.5 py-2 text-sm font-semibold transition-colors ${
+                scrolled
+                  ? 'border-teal/25 text-teal hover:bg-teal hover:text-white'
+                  : 'border-white/30 text-white hover:bg-white/10'
+              }`}
+            >
               <Phone className="h-4 w-4" /> {BUSINESS.phoneDisplay}
             </a>
-            <Link to="/sign-up" className="btn-primary">
+            <Link to="/sign-up" className="btn-primary whitespace-nowrap">
               Request Care
             </Link>
           </div>
 
           {/* Mobile toggle */}
           <button
-            className={`grid h-11 w-11 place-items-center rounded-xl xl:hidden ${
+            className={`grid h-11 w-11 shrink-0 place-items-center rounded-xl xl:hidden ${
               scrolled ? 'bg-white text-navy shadow-soft' : 'bg-white/15 text-white'
             }`}
             onClick={() => setOpen((v) => !v)}
