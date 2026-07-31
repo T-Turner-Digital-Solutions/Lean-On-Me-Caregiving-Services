@@ -1,31 +1,14 @@
 import { useState } from 'react'
 
-interface LogoMarkProps {
+interface LogoProps {
   className?: string
 }
 
 /**
- * Lean On Me logo mark — a teal→gold heart cradling a gold figure.
- *
- * If the owner uploads their exact logo artwork to
- *   /public/images/lean-on-me-logo.png   (or .svg)
- * it is used automatically; otherwise this scalable SVG recreation is shown,
- * so the brand always looks intentional. Works on light and dark backgrounds.
+ * Pure SVG glyph — the teal→gold heart cradling a gold figure.
+ * Used as the built-in mark and as the fallback when no uploaded artwork exists.
  */
-export default function LogoMark({ className = 'h-11 w-11' }: LogoMarkProps) {
-  const [useSvg, setUseSvg] = useState(false)
-
-  if (!useSvg) {
-    return (
-      <img
-        src="/images/lean-on-me-logo.png"
-        alt="Lean On Me Caregiving Services logo"
-        className={`${className} object-contain`}
-        onError={() => setUseSvg(true)}
-      />
-    )
-  }
-
+export function LogoGlyph({ className = 'h-11 w-11' }: LogoProps) {
   return (
     <svg viewBox="0 0 64 64" className={className} role="img" aria-label="Lean On Me logo">
       <defs>
@@ -35,7 +18,6 @@ export default function LogoMark({ className = 'h-11 w-11' }: LogoMarkProps) {
           <stop offset="1" stopColor="#d9b968" />
         </linearGradient>
       </defs>
-      {/* Heart */}
       <path
         d="M32 55C11 41 6 23 18 14.5c8-5.7 14 2 14 6 0-4 6-11.7 14-6C58 23 53 41 32 55Z"
         fill="none"
@@ -43,12 +25,26 @@ export default function LogoMark({ className = 'h-11 w-11' }: LogoMarkProps) {
         strokeWidth="5"
         strokeLinejoin="round"
       />
-      {/* Figure — head */}
       <circle cx="31.5" cy="25.5" r="4.3" fill="#c9a24b" />
-      {/* Figure — body / reaching arm */}
       <path d="M25.5 45c1-11 4.5-14 8.5-13.5 6 .8 6.5 8 3 13.5Z" fill="#c9a24b" />
-      {/* Leaf accent */}
       <path d="M37 45c6.5-4 7.5-11 4-15.5-1 6-3.5 11-7 15.5Z" fill="#0f6b6b" />
     </svg>
+  )
+}
+
+/**
+ * Logo mark for the header/footer. Uses the owner's uploaded artwork at
+ * /public/images/lean-on-me-logo.png when present; otherwise the SVG glyph.
+ */
+export default function LogoMark({ className = 'h-11 w-11' }: LogoProps) {
+  const [useSvg, setUseSvg] = useState(false)
+  if (useSvg) return <LogoGlyph className={className} />
+  return (
+    <img
+      src="/images/lean-on-me-logo.png"
+      alt="Lean On Me Caregiving Services logo"
+      className={`${className} object-contain`}
+      onError={() => setUseSvg(true)}
+    />
   )
 }

@@ -8,11 +8,15 @@ Place polished, licensed caregiving imagery here.
 | `lean-on-me-logo.png`    | Header + footer logo (optional — see below)     |
 
 ## Logo (`lean-on-me-logo.png`)
-Drop your exact logo artwork here as `lean-on-me-logo.png` (a transparent-
-background PNG works best; a square/roughly-square crop of the heart mark looks
-best in the header). The site uses it automatically in the navigation bar and
-footer. Until it's present, a built-in scalable SVG recreation of the heart mark
-is shown, so the brand always looks intentional. Recommended: 256×256+, < ~80 KB.
+Drop your exact logo artwork here as `lean-on-me-logo.png` (transparent-
+background PNG works best). It's used automatically in three places:
+- **Header + footer** — a square/roughly-square crop of the heart mark looks best.
+- **Homepage hero panel** — shown at a large size on its own (your artwork
+  already includes the wordmark, so no extra text is added there).
+
+Until the file is present, a built-in scalable SVG recreation of the heart mark
+(with a matching wordmark in the hero) is shown, so the brand always looks
+intentional. Recommended: 512×512+, transparent PNG, < ~150 KB.
 
 
 ## Requirements
