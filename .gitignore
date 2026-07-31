@@ -31,3 +31,6 @@ yarn-error.log*
 
 # Large media placeholders may be committed by the owner later; ignore accidental large temp files
 *.tmp
+
+# TypeScript build info (generated)
+*.tsbuildinfo

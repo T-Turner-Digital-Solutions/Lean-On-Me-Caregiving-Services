@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import Seo from '../components/Seo'
 import Reveal from '../components/Reveal'
+import BrandVideo from '../components/BrandVideo'
 import { BUSINESS, MISSION_STATEMENT, HERO_VIDEO_STATEMENT } from '../lib/constants'
 import { SERVICES_OVERVIEW, TESTIMONIALS } from '../data/site'
 import {
@@ -37,7 +38,7 @@ export default function Home() {
       />
 
       {/* ================= HERO ================= */}
-      <section className="relative flex min-h-[92vh] items-center overflow-hidden">
+      <section className="relative flex min-h-[92vh] items-center overflow-hidden bg-teal-gradient">
         {/*
           HERO VIDEO — the owner will provide the completed file.
           Place the video at:   /public/videos/lean-on-me-hero.mp4
@@ -56,23 +57,13 @@ export default function Home() {
           preload="metadata"
           aria-hidden="true"
           onError={(e) => {
-            // Fallback to the poster image if the video fails to load.
-            const el = e.currentTarget
-            el.style.display = 'none'
-            const fallback = document.getElementById('hero-fallback')
-            if (fallback) fallback.style.display = 'block'
+            // If the video can't load, hide it and let the branded gradient +
+            // poster (when present) show through. No broken alt text.
+            e.currentTarget.style.display = 'none'
           }}
         >
           <source src="/videos/lean-on-me-hero.mp4" type="video/mp4" />
         </video>
-
-        {/* Poster fallback image (revealed only if the video fails) */}
-        <img
-          id="hero-fallback"
-          src="/images/lean-on-me-hero.jpg"
-          alt="A caregiver offering warm, supportive companionship."
-          className="absolute inset-0 hidden h-full w-full object-cover"
-        />
 
         {/* Readability gradient overlay */}
         <div className="absolute inset-0 bg-hero-overlay" />
@@ -132,27 +123,20 @@ export default function Home() {
       <section className="section bg-cream">
         <div className="container-lux grid items-center gap-12 lg:grid-cols-2">
           <Reveal>
-            <div className="relative overflow-hidden rounded-4xl shadow-card ring-1 ring-navy/10">
-              {/*
-                SECOND VIDEO — the owner will provide the completed file.
-                Place the video at: /public/videos/lean-on-me-story.mp4
-                Poster fallback:     /public/images/lean-on-me-hero.jpg
-              */}
-              <video
-                className="aspect-[4/3] h-full w-full object-cover"
-                autoPlay
-                loop
-                muted
-                playsInline
-                preload="none"
+            {/*
+              SECOND VIDEO — the owner will provide the completed file.
+              Place the video at: /public/videos/lean-on-me-story.mp4
+              Poster fallback:     /public/images/lean-on-me-hero.jpg
+              Until the file is uploaded, BrandVideo shows an elegant branded
+              placeholder instead of an empty box.
+            */}
+            <div className="shadow-card ring-1 ring-navy/10 rounded-4xl">
+              <BrandVideo
+                src="/videos/lean-on-me-story.mp4"
                 poster="/images/lean-on-me-hero.jpg"
-                aria-label="Lean On Me caregiving story video"
-              >
-                <source src="/videos/lean-on-me-story.mp4" type="video/mp4" />
-                {/* Fallback text for unsupported browsers */}
-                Your browser does not support the video. Please call {BUSINESS.phoneDisplay}.
-              </video>
-              <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-navy-dark/30 to-transparent" />
+                caption="Care that feels like family"
+                ariaLabel="Lean On Me caregiving story video"
+              />
             </div>
           </Reveal>
 
