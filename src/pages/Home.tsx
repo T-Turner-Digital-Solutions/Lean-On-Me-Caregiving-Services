@@ -69,56 +69,51 @@ export default function Home() {
         {/* Readability gradient overlay */}
         <div className="absolute inset-0 bg-hero-overlay" />
 
-        <div className="container-lux relative z-10 grid items-center gap-12 py-28 lg:grid-cols-[1.1fr_0.9fr]">
-          {/* Left column — messaging */}
-          <div>
-            <Reveal>
-              <p className="eyebrow text-gold-light">Compassionate • Dependable • Dignified</p>
-            </Reveal>
-            <Reveal delay={1}>
-              <h1 className="mt-4 max-w-3xl font-serif text-5xl font-semibold leading-[1.05] text-white sm:text-6xl lg:text-7xl">
-                Compassionate Care You Can Lean On
-              </h1>
-            </Reveal>
-            <Reveal delay={2}>
-              <p className="mt-6 max-w-2xl text-lg leading-relaxed text-cream/85 sm:text-xl">
-                Personalized in-home assistance, Medicaid-supported services, and comfortable housing
-                options designed to help seniors, veterans, and individuals maintain dignity, safety,
-                comfort, and independence.
-              </p>
-            </Reveal>
-            <Reveal delay={3}>
-              <div className="mt-9 flex flex-wrap gap-3">
-                <Link to="/sign-up" className="btn-primary">
-                  Request Care <ArrowRight className="h-4 w-4" />
-                </Link>
-                <Link to="/services" className="btn-outline">
-                  Explore Our Services
-                </Link>
-                <a href={BUSINESS.phoneHref} className="btn-outline">
-                  <Phone className="h-4 w-4" /> Call {BUSINESS.phoneDisplay}
-                </a>
-              </div>
-            </Reveal>
-
-            {/* Owner-requested on-screen statement for the silenced hero video */}
-            <Reveal delay={4}>
-              <p className="mt-10 max-w-xl border-l-2 border-gold/70 pl-4 font-serif text-xl italic text-cream/90">
-                “{HERO_VIDEO_STATEMENT}”
-              </p>
-            </Reveal>
-          </div>
-
-          {/* Right column — logo in the large open spot.
+        <div className="container-lux relative z-10 flex flex-col items-center py-24 text-center sm:py-28">
+          {/* Logo — centered on the main page.
               Uses /images/lean-on-me-logo.png automatically when uploaded;
               otherwise shows the branded logo lockup. The soft cream panel
               keeps any logo artwork legible over the video/gradient. */}
-          <Reveal delay={2}>
-            <div className="flex justify-center lg:justify-end">
-              <div className="flex flex-col items-center rounded-[2.5rem] bg-cream/95 px-10 py-12 shadow-card ring-1 ring-white/30 backdrop-blur-sm sm:px-14">
-                <BrandLockup />
-              </div>
+          <Reveal>
+            <div className="mb-9 inline-flex flex-col items-center rounded-[2.25rem] bg-cream/95 px-10 py-9 shadow-card ring-1 ring-white/30 backdrop-blur-sm sm:px-14">
+              <BrandLockup />
             </div>
+          </Reveal>
+
+          <Reveal delay={1}>
+            <p className="eyebrow text-gold-light">Compassionate • Dependable • Dignified</p>
+          </Reveal>
+          <Reveal delay={2}>
+            <h1 className="mt-4 max-w-4xl font-serif text-5xl font-semibold leading-[1.05] text-white sm:text-6xl lg:text-7xl">
+              Compassionate Care You Can Lean On
+            </h1>
+          </Reveal>
+          <Reveal delay={3}>
+            <p className="mt-6 max-w-2xl text-lg leading-relaxed text-cream/85 sm:text-xl">
+              Personalized in-home assistance, Medicaid-supported services, and comfortable housing
+              options designed to help seniors, veterans, and individuals maintain dignity, safety,
+              comfort, and independence.
+            </p>
+          </Reveal>
+          <Reveal delay={4}>
+            <div className="mt-9 flex flex-wrap justify-center gap-3">
+              <Link to="/sign-up" className="btn-primary">
+                Request Care <ArrowRight className="h-4 w-4" />
+              </Link>
+              <Link to="/services" className="btn-outline">
+                Explore Our Services
+              </Link>
+              <a href={BUSINESS.phoneHref} className="btn-outline">
+                <Phone className="h-4 w-4" /> Call {BUSINESS.phoneDisplay}
+              </a>
+            </div>
+          </Reveal>
+
+          {/* Owner-requested on-screen statement for the silenced hero video */}
+          <Reveal delay={5}>
+            <p className="mt-10 max-w-xl font-serif text-xl italic text-cream/90">
+              “{HERO_VIDEO_STATEMENT}”
+            </p>
           </Reveal>
         </div>
       </section>
