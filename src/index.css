@@ -1,0 +1,78 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-cream text-navy font-sans antialiased;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-serif;
+  }
+
+  /* Accessible focus styling for keyboard navigation */
+  :focus-visible {
+    @apply outline-none ring-2 ring-gold ring-offset-2 ring-offset-cream;
+  }
+}
+
+@layer components {
+  .container-lux {
+    @apply mx-auto w-full max-w-7xl px-5 sm:px-8 lg:px-12;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold tracking-wide transition-all duration-300 focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2;
+  }
+
+  .btn-primary {
+    @apply btn bg-gold-gradient text-navy-dark shadow-gold hover:-translate-y-0.5 hover:shadow-card;
+  }
+
+  .btn-teal {
+    @apply btn bg-teal text-white shadow-soft hover:bg-teal-dark hover:-translate-y-0.5;
+  }
+
+  .btn-outline {
+    @apply btn border border-white/70 bg-white/10 text-white backdrop-blur-sm hover:bg-white/20;
+  }
+
+  .btn-ghost {
+    @apply btn border border-teal/30 bg-white text-teal hover:border-teal hover:bg-teal hover:text-white;
+  }
+
+  .card-lux {
+    @apply rounded-3xl bg-white p-8 shadow-soft ring-1 ring-navy/5 transition-all duration-300 hover:-translate-y-1 hover:shadow-card;
+  }
+
+  .eyebrow {
+    @apply text-xs font-semibold uppercase tracking-[0.2em] text-gold-dark;
+  }
+
+  .section {
+    @apply py-20 sm:py-24 lg:py-28;
+  }
+}
+
+/* Respect users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}

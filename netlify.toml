@@ -1,0 +1,36 @@
+# Netlify configuration for Lean On Me Caregiving Services
+# Build command: npm run build
+# Publish directory: dist
+
+[build]
+  command = "npm run build"
+  publish = "dist"
+  functions = "netlify/functions"
+
+[build.environment]
+  NODE_VERSION = "20"
+
+# Bundle serverless functions with esbuild (supports TypeScript)
+[functions]
+  node_bundler = "esbuild"
+
+# SPA fallback: let React Router handle client-side routes.
+# API routes are exposed under /api/* -> /.netlify/functions/*
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Sensible security headers for a public marketing + admin site.
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "geolocation=(), microphone=(), camera=()"
