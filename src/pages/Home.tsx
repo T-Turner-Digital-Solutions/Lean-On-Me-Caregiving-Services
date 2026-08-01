@@ -3,7 +3,7 @@ import Seo from '../components/Seo'
 import Reveal from '../components/Reveal'
 import BrandVideo from '../components/BrandVideo'
 import BrandLockup from '../components/BrandLockup'
-import { BUSINESS, MISSION_STATEMENT, HERO_VIDEO_STATEMENT } from '../lib/constants'
+import { BUSINESS, MISSION_STATEMENT, HERO_VIDEO_STATEMENT, ELIGIBILITY_URL } from '../lib/constants'
 import { SERVICES_OVERVIEW, TESTIMONIALS } from '../data/site'
 import {
   HeartHands,
@@ -74,7 +74,7 @@ export default function Home() {
               Uses /images/lean-on-me-logo.png automatically when uploaded;
               otherwise shows the branded logo lockup. The soft cream panel
               keeps any logo artwork legible over the video/gradient. */}
-          <Reveal>
+          <Reveal className="self-start">
             <div className="mb-9 inline-flex flex-col items-center rounded-[2.25rem] bg-cream/95 px-10 py-9 shadow-card ring-1 ring-white/30 backdrop-blur-sm sm:px-14">
               <BrandLockup />
             </div>
@@ -267,9 +267,14 @@ export default function Home() {
                 <Link to="/medicaid-assistance" className="btn-primary">
                   Learn More
                 </Link>
-                <Link to="/sign-up" className="btn-outline">
-                  Check Care Eligibility
-                </Link>
+                <a
+                  href={ELIGIBILITY_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-outline"
+                >
+                  Check Eligibility
+                </a>
               </div>
             </div>
           </Reveal>
