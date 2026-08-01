@@ -5,31 +5,49 @@ import { createClient, type SupabaseClient } from '@supabase/supabase-js'
 // The service-role key must NEVER be used here — it lives only in serverless
 // functions (see netlify/functions).
 
-const url = import.meta.env.VITE_SUPABASE_URL as string | undefined
-const anonKey = import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined
+const url = (import.meta.env.VITE_SUPABASE_URL as string | undefined)?.trim()
+const anonKey = (import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined)?.trim()
 
 // A single shared client. If env vars are missing (e.g. local preview without
 // configuration), we surface a clear error rather than failing cryptically.
 let client: SupabaseClient | null = null
 
-export function getSupabase(): SupabaseClient {
-  if (client) return client
-  if (!url || !anonKey) {
-    throw new Error(
-      'Supabase is not configured. Set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY.'
-    )
+// Validate that the Supabase URL is a real http(s) URL. A malformed value
+// (missing https://, a placeholder, extra whitespace) would otherwise make
+// createClient() throw synchronously and crash the admin page.
+function isValidHttpUrl(value?: string): boolean {
+  if (!value) return false
+  try {
+    const parsed = new URL(value)
+    return parsed.protocol === 'http:' || parsed.protocol === 'https:'
+  } catch {
+    return false
   }
-  client = createClient(url, anonKey, {
-    auth: {
-      persistSession: true,
-      autoRefreshToken: true,
-    },
-  })
-  return client
 }
 
 export function isSupabaseConfigured(): boolean {
-  return Boolean(url && anonKey)
+  return Boolean(anonKey) && isValidHttpUrl(url)
+}
+
+export function getSupabase(): SupabaseClient {
+  if (client) return client
+  if (!isSupabaseConfigured()) {
+    throw new Error(
+      'Supabase is not configured correctly. Set VITE_SUPABASE_ANON_KEY and make sure ' +
+        'VITE_SUPABASE_URL is a full https:// project URL (e.g. https://xxxx.supabase.co).'
+    )
+  }
+  try {
+    client = createClient(url as string, anonKey as string, {
+      auth: {
+        persistSession: true,
+        autoRefreshToken: true,
+      },
+    })
+  } catch (e) {
+    throw new Error('Failed to initialize Supabase: ' + (e as Error).message)
+  }
+  return client
 }
 
 // Care-request status values (kept in sync with the database CHECK constraint).

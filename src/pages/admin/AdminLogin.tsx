@@ -69,7 +69,9 @@ export default function AdminLogin() {
 
             {!configured && (
               <p className="mt-5 rounded-xl bg-gold/10 px-4 py-3 text-center text-xs text-gold-dark">
-                Supabase environment variables are not set yet. Configure them to enable login.
+                Login isn’t available yet: Supabase isn’t configured (or the URL is invalid). Set
+                <span className="font-semibold"> VITE_SUPABASE_URL</span> to your full https:// project
+                URL and <span className="font-semibold">VITE_SUPABASE_ANON_KEY</span>, then redeploy.
               </p>
             )}
 
