@@ -23,21 +23,29 @@ export function json(statusCode: number, body: unknown) {
 }
 
 // Server-side Supabase client for inserting care requests.
-// Prefers the service-role key (bypasses RLS), but falls back to the anon key,
-// since the RLS policy already allows public INSERTs. This means the care form
-// works as long as SUPABASE_URL + either key is set. Validation happens in the
-// function before inserting regardless.
+//
+// Resilient env lookup: functions can read ALL Netlify env vars, so we accept
+// either the server names (SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY /
+// SUPABASE_ANON_KEY) OR the VITE_-prefixed ones used by the frontend. That way
+// the form works whichever set you configured. The service-role key is
+// preferred, but the anon key also works because RLS already allows public
+// INSERTs. Validation happens in the function before inserting regardless.
 export function serviceClient() {
-  const url = (process.env.SUPABASE_URL || '').trim()
-  const key = (process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_ANON_KEY || '').trim()
+  const url = (process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL || '').trim()
+  const key = (
+    process.env.SUPABASE_SERVICE_ROLE_KEY ||
+    process.env.SUPABASE_ANON_KEY ||
+    process.env.VITE_SUPABASE_ANON_KEY ||
+    ''
+  ).trim()
   if (!url) {
-    throw new Error('SUPABASE_URL is not set (Netlify environment variable).')
+    throw new Error('SUPABASE_URL (or VITE_SUPABASE_URL) is not set in Netlify.')
   }
   if (!/^https?:\/\//.test(url)) {
-    throw new Error('SUPABASE_URL must be a full https:// project URL.')
+    throw new Error(`SUPABASE_URL must be a full https:// project URL (got "${url}").`)
   }
   if (!key) {
-    throw new Error('Set SUPABASE_SERVICE_ROLE_KEY (or SUPABASE_ANON_KEY) in Netlify.')
+    throw new Error('Set SUPABASE_SERVICE_ROLE_KEY or SUPABASE_ANON_KEY (or VITE_SUPABASE_ANON_KEY) in Netlify.')
   }
   return createClient(url, key, { auth: { persistSession: false } })
 }

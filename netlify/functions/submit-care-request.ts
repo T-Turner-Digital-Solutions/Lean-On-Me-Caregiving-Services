@@ -76,7 +76,12 @@ export const handler: Handler = async (event) => {
     }
   } catch (e) {
     console.error(e)
-    return json(500, { error: 'Server is not fully configured. Please call ' + BRAND.phone + '.' })
+    // Surface the specific configuration reason so it's diagnosable without
+    // digging through server logs (reveals which env var is missing, not secrets).
+    const reason = (e as Error).message || 'Unknown configuration error'
+    return json(500, {
+      error: `Server is not fully configured (${reason}). Please call ${BRAND.phone}.`,
+    })
   }
 
   // Fire off emails (best-effort — failures don't block the submission).
