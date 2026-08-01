@@ -74,7 +74,7 @@ export default function Home() {
               Uses /images/lean-on-me-logo.png automatically when uploaded;
               otherwise shows the branded logo lockup. The soft cream panel
               keeps any logo artwork legible over the video/gradient. */}
-          <Reveal>
+          <Reveal className="self-start">
             <div className="mb-9 inline-flex flex-col items-center rounded-[2.25rem] bg-cream/95 px-10 py-9 shadow-card ring-1 ring-white/30 backdrop-blur-sm sm:px-14">
               <BrandLockup />
             </div>
