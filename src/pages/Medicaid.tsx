@@ -3,7 +3,8 @@ import Seo from '../components/Seo'
 import PageHero from '../components/PageHero'
 import Reveal from '../components/Reveal'
 import CtaBand from '../components/CtaBand'
-import { Pill, Check } from '../components/Icons'
+import { ELIGIBILITY_URL } from '../lib/constants'
+import { Pill, Check, ArrowRight } from '../components/Icons'
 
 const POINTS = [
   'We accept Medicaid patients who need assistance in their homes.',
@@ -31,9 +32,9 @@ export default function Medicaid() {
         title="Support for Medicaid patients who need help at home"
         subtitle="Lean On Me Caregiving Services accepts Medicaid patients who need assistance in their homes. We’ll help you understand the process and take the first step."
       >
-        <Link to="/sign-up" className="btn-primary">
-          Check Care Eligibility
-        </Link>
+        <a href={ELIGIBILITY_URL} target="_blank" rel="noopener noreferrer" className="btn-primary">
+          Check Eligibility <ArrowRight className="h-4 w-4" />
+        </a>
       </PageHero>
 
       <section className="section bg-cream">
@@ -76,9 +77,9 @@ export default function Medicaid() {
                 ))}
               </ul>
               <div className="mt-7 flex flex-wrap gap-3">
-                <Link to="/sign-up" className="btn-teal">
-                  Check Care Eligibility
-                </Link>
+                <a href={ELIGIBILITY_URL} target="_blank" rel="noopener noreferrer" className="btn-teal">
+                  Check Eligibility <ArrowRight className="h-4 w-4" />
+                </a>
                 <Link to="/faq" className="btn-ghost">
                   Read Medicaid FAQ
                 </Link>

@@ -20,6 +20,9 @@ export const MISSION_STATEMENT =
 export const HERO_VIDEO_STATEMENT =
   'At Lean On Me Caregiving, we give you the services you need.'
 
+// Owner-requested external eligibility tool ("Check Eligibility" buttons).
+export const ELIGIBILITY_URL = 'https://www.medicare.gov/eligibilitypremiumcalc'
+
 // `short` is used in the compact desktop nav bar; `label` is the full name used
 // in the mobile drawer and elsewhere.
 export type NavItem = { label: string; short?: string; to: string }

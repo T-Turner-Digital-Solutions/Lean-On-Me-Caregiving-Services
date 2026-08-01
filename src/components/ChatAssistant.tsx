@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { BUSINESS } from '../lib/constants'
+import { BUSINESS, ELIGIBILITY_URL } from '../lib/constants'
 import { Chat, Close, Send, Phone } from './Icons'
 
 /**
@@ -59,7 +59,7 @@ function generateReply(input: string): Msg {
         'Lean On Me accepts Medicaid patients who need assistance in their homes. Eligibility and the services that can be authorized depend on your Medicaid plan, an assessment, program requirements, and final authorization — we can’t guarantee approval, but we’re glad to help you get started.',
       links: [
         { label: 'Medicaid Assistance', to: '/medicaid-assistance' },
-        { label: 'Check Care Eligibility', to: '/sign-up' },
+        { label: 'Check Eligibility', href: ELIGIBILITY_URL },
       ],
     }
   }
@@ -247,6 +247,8 @@ export default function ChatAssistant() {
                           <a
                             key={l.label}
                             href={l.href}
+                            target={l.href?.startsWith('http') ? '_blank' : undefined}
+                            rel={l.href?.startsWith('http') ? 'noopener noreferrer' : undefined}
                             className="rounded-full bg-gold/15 px-3 py-1 text-xs font-semibold text-gold-dark hover:bg-gold/25"
                           >
                             {l.label}
