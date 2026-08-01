@@ -4,8 +4,11 @@
 // SECURITY: everything here runs server-side only. The SUPABASE_SERVICE_ROLE_KEY
 // and RESEND_API_KEY are read from environment variables and NEVER shipped to
 // the browser.
-
-import { createClient } from '@supabase/supabase-js'
+//
+// NOTE: this file intentionally does NOT import @supabase/supabase-js. That
+// library pulls in realtime-js, which requires a native WebSocket and throws
+// on some Node runtimes ("native WebSocket not found"). We only need to INSERT
+// a row, so we call the Supabase REST (PostgREST) endpoint directly with fetch.
 
 export const BRAND = {
   name: 'Lean On Me Caregiving Services',
@@ -22,16 +25,15 @@ export function json(statusCode: number, body: unknown) {
   }
 }
 
-// Server-side Supabase client for inserting care requests.
-//
-// Resilient env lookup: functions can read ALL Netlify env vars, so we accept
-// either the server names (SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY /
-// SUPABASE_ANON_KEY) OR the VITE_-prefixed ones used by the frontend. That way
-// the form works whichever set you configured. The service-role key is
-// preferred, but the anon key also works because RLS already allows public
-// INSERTs. Validation happens in the function before inserting regardless.
-export function serviceClient() {
-  const url = (process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL || '').trim()
+// Resolve Supabase config from Netlify env vars. Functions can read ALL env
+// vars, so we accept either the server names (SUPABASE_URL /
+// SUPABASE_SERVICE_ROLE_KEY / SUPABASE_ANON_KEY) OR the VITE_-prefixed ones used
+// by the frontend — whichever set you configured. The service-role key is
+// preferred; the anon key also works because RLS allows public INSERTs.
+export function getSupabaseConfig() {
+  const url = (process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL || '')
+    .trim()
+    .replace(/\/+$/, '')
   const key = (
     process.env.SUPABASE_SERVICE_ROLE_KEY ||
     process.env.SUPABASE_ANON_KEY ||
@@ -47,7 +49,28 @@ export function serviceClient() {
   if (!key) {
     throw new Error('Set SUPABASE_SERVICE_ROLE_KEY or SUPABASE_ANON_KEY (or VITE_SUPABASE_ANON_KEY) in Netlify.')
   }
-  return createClient(url, key, { auth: { persistSession: false } })
+  return { url, key }
+}
+
+// Insert a row via the Supabase REST (PostgREST) endpoint using fetch — no
+// supabase-js dependency, so no WebSocket/realtime requirement. Works on any
+// Node runtime that provides global fetch (Node 18+).
+export async function insertRow(table: string, row: Record<string, unknown>) {
+  const { url, key } = getSupabaseConfig()
+  const res = await fetch(`${url}/rest/v1/${table}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      apikey: key,
+      Authorization: `Bearer ${key}`,
+      Prefer: 'return=minimal',
+    },
+    body: JSON.stringify(row),
+  })
+  if (!res.ok) {
+    const detail = (await res.text().catch(() => '')).slice(0, 300)
+    throw new Error(`Database insert failed (HTTP ${res.status})${detail ? ': ' + detail : ''}`)
+  }
 }
 
 // A short, human-friendly inquiry number, e.g. LOM-20260731-4821

@@ -2,7 +2,7 @@ import type { Handler } from '@netlify/functions'
 import {
   BRAND,
   json,
-  serviceClient,
+  insertRow,
   makeInquiryNumber,
   sendEmail,
   tplAdminNewRequest,
@@ -68,19 +68,14 @@ export const handler: Handler = async (event) => {
   }
 
   try {
-    const supabase = serviceClient()
-    const { error } = await supabase.from('care_requests').insert(record)
-    if (error) {
-      console.error('Insert error:', error)
-      return json(500, { error: 'We could not save your request. Please call ' + BRAND.phone + '.' })
-    }
+    await insertRow('care_requests', record)
   } catch (e) {
     console.error(e)
-    // Surface the specific configuration reason so it's diagnosable without
-    // digging through server logs (reveals which env var is missing, not secrets).
-    const reason = (e as Error).message || 'Unknown configuration error'
+    // Surface the specific reason so it's diagnosable without digging through
+    // server logs (reveals which env var / DB issue, not secret values).
+    const reason = (e as Error).message || 'Unknown error'
     return json(500, {
-      error: `Server is not fully configured (${reason}). Please call ${BRAND.phone}.`,
+      error: `We couldn't submit your request (${reason}). Please call ${BRAND.phone}.`,
     })
   }
 
