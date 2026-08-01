@@ -22,12 +22,23 @@ export function json(statusCode: number, body: unknown) {
   }
 }
 
-// Prefer the service-role client for trusted server writes; RLS is bypassed,
-// so validation must happen here before inserting.
+// Server-side Supabase client for inserting care requests.
+// Prefers the service-role key (bypasses RLS), but falls back to the anon key,
+// since the RLS policy already allows public INSERTs. This means the care form
+// works as long as SUPABASE_URL + either key is set. Validation happens in the
+// function before inserting regardless.
 export function serviceClient() {
-  const url = process.env.SUPABASE_URL
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY
-  if (!url || !key) throw new Error('Supabase server env vars are not configured.')
+  const url = (process.env.SUPABASE_URL || '').trim()
+  const key = (process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_ANON_KEY || '').trim()
+  if (!url) {
+    throw new Error('SUPABASE_URL is not set (Netlify environment variable).')
+  }
+  if (!/^https?:\/\//.test(url)) {
+    throw new Error('SUPABASE_URL must be a full https:// project URL.')
+  }
+  if (!key) {
+    throw new Error('Set SUPABASE_SERVICE_ROLE_KEY (or SUPABASE_ANON_KEY) in Netlify.')
+  }
   return createClient(url, key, { auth: { persistSession: false } })
 }
 
